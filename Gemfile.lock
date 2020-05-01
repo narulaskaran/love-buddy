@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    json (2.3.0)
     sorbet (0.5.5571)
       sorbet-static (= 0.5.5571)
     sorbet-runtime (0.5.5571)
@@ -10,6 +11,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   sorbet
   sorbet-runtime
 
