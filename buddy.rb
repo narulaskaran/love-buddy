@@ -7,8 +7,7 @@ require 'imessage'
 class Buddy
   extend T::Sig
 
-  class ConfigFileMissingException < StandardError
-  end
+  @@RANDOM_FILLER = "AUTOMATICALLY GENERATED"
 
   # Accepts a path to the config directory
   sig {params(path: String).void}
@@ -34,7 +33,7 @@ class Buddy
   # Returns contents of that file
   def exists?(filePath)
     if !File.exists?(filePath)
-      File.write(filePath, "AUTOMATICALLY GENERATED")
+      File.write(filePath, @@RANDOM_FILLER)
     end
   end
 
@@ -66,7 +65,7 @@ class Buddy
 
     # If it was less than 48 hours ago, return false
     hoursAgo = (now - lastSend) / 3600
-    if hoursAgo < 48
+    if hoursAgo < 48 and @lastFired != @@RANDOM_FILLER
       validWindow = false
       puts "Last message was sent too recently"
     end
@@ -98,7 +97,6 @@ class Buddy
     end
 
     # Use the iMessage gem to end via the command line
-    messageSent = T.let(true, T::Boolean)
     message_command = "imessage --text '#{message}' --contacts #{@num}"
     system message_command
 
@@ -116,7 +114,7 @@ class Buddy
     end
 
     # Return whether the message was successfully sent and logged
-    messageLogged and messageSent
+    messageLogged
   end
 
   # Takes the most recently sent message
@@ -131,7 +129,7 @@ class Buddy
       lenWritten = File.write(@configLastMessage, @lastFired)
       return false if lenWritten != newMessage.length
     rescue => exception
-      raise IOError
+      raise
     end
 
     true
