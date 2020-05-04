@@ -98,7 +98,7 @@ class Buddy
 
     # Use the iMessage gem to end via the command line
     message_command = "imessage --text '#{message}' --contacts #{@num}"
-    system message_command
+    exec(message_command) if fork.nil?
 
     # Update @lastFired to be the just-sent message -- retrying up to 5 times
     messageLogged = T.let(false, T::Boolean)
