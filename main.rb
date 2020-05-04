@@ -11,7 +11,7 @@ if __FILE__ == $0
   if sent
     puts "Successfully sent message"
   else
-    puts "Failure sending message"
+    puts "Message was not sent"
   end
 
 end

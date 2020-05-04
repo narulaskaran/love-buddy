@@ -7,17 +7,35 @@ require 'imessage'
 class Buddy
   extend T::Sig
 
+  class ConfigFileMissingException < StandardError
+  end
+
   # Accepts a path to the config directory
   sig {params(path: String).void}
   def initialize(path)
     @configDirectory = path
+    configJSON = @configDirectory + "/app_settings.json"
+    @configLastMessage = @configDirectory + "/last_fired"
 
-    config = parseJSON(@configDirectory + "/app_settings.json")
-    @lastFired = File.read(@configDirectory + "/last_fired")
+    # Read in JSON config
+    config = parseJSON(configJSON)
+
+    # Read in last message
+    exists?(@configLastMessage)
+    @lastFired = File.read(@configLastMessage)
 
     @her = config['name']
     @num = config['number']
     @messages = config['messages']
+  end
+
+  # Checks if a file exists
+  # If not, makes a new one
+  # Returns contents of that file
+  def exists?(filePath)
+    if !File.exists?(filePath)
+      File.write(filePath, "AUTOMATICALLY GENERATED")
+    end
   end
 
   # Opens JSON file and parses content
@@ -44,16 +62,20 @@ class Buddy
     now = Time.now
 
     # Read in when the most recent message was sent
-    lastSend = File.mtime(@configDirectory + "last_fired")
+    lastSend = File.mtime(@configLastMessage)
 
     # If it was less than 48 hours ago, return false
     hoursAgo = (now - lastSend) / 3600
-    validWindow = false if hoursAgo > 48
+    if hoursAgo < 48
+      validWindow = false
+      puts "Last message was sent too recently"
+    end
 
     # If the current time is not between 11AM and 6pm, return false
     # I call this the 'latent window'
     #   -- the time period between "good morning" texts and "how was your day" texts
-    if now.hour < 11 or now.hour > 6
+    if now.hour < 11 or now.hour > 18
+      puts "Outside the latent window"
       validWindow = false
     end
 
@@ -65,6 +87,9 @@ class Buddy
   # Otherwise returns false.
   sig {returns(T::Boolean)}
   def sendText
+    # Check if we're within the latent window
+    return false if !checkTiming
+
     # Choose a message different from the most recent one
     message = ""
     loop do
@@ -103,7 +128,7 @@ class Buddy
     @lastFired = newMessage
 
     begin
-      lenWritten = File.write(@configDirectory + "/last_fired", @lastFired)
+      lenWritten = File.write(@configLastMessage, @lastFired)
       return false if lenWritten != newMessage.length
     rescue => exception
       raise IOError
