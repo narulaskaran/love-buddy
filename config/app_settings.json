@@ -1,7 +1,6 @@
 {
-  "my-name": "YOUR_NAME",
-  "her-name": "HER_NAME",
-  "her-number": "HER_PHONE_NUMBER",
+  "name": "NAME",
+  "number": "PHONE_NUMBER",
   "messages": [
     "Thinking of you..",
     "Thinking about you... :)",
