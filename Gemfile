@@ -10,3 +10,6 @@ gem 'json'
 
 # -- Send iMessages on Mac --
 gem 'imessage'
+
+# -- Daemons --
+gem 'daemons'
