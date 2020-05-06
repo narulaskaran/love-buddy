@@ -31,10 +31,19 @@ class Buddy
   # Checks if a file exists
   # If not, makes a new one
   # Returns contents of that file
+  sig {params(filePath: String).returns(String)}
   def exists?(filePath)
+    content = ""
     if !File.exists?(filePath)
-      File.write(filePath, @@RANDOM_FILLER)
+      file = File.new(filePath, "w")
+      file.write(@@RANDOM_FILLER)
+      file.close()
+      content = @@RANDOM_FILLER
+    else
+      content = File.read(filePath)
     end
+
+    return content
   end
 
   # Opens JSON file and parses content

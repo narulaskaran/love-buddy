@@ -57,3 +57,5 @@ Gemfile.lock
 
 .vscode/*
 config/last_fired
+config/buddy.log
+config/.DS_Store
