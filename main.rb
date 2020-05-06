@@ -25,6 +25,7 @@ loop do
     log.write("#{Time.now} ---- Message was not sent")
   end
 
+  log.write("\n")
   log.close()
   sleep(60 * 60 * 6)  # Sleep for 6 hours and check status again
 end
