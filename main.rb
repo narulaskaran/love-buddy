@@ -20,9 +20,9 @@ loop do
 
   sent = boo.sendText
   if sent
-    log.write(Time.now + "---- Successfully sent message")
+    log.write("#{Time.now} ---- Successfully sent message")
   else
-    log.write(Time.now + "---- Message was not sent")
+    log.write("#{Time.now} ---- Message was not sent")
   end
 
   log.close()

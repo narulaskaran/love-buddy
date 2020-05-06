@@ -59,3 +59,4 @@ Gemfile.lock
 config/last_fired
 config/buddy.log
 config/.DS_Store
+main.rb.pid
