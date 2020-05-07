@@ -27,5 +27,5 @@ loop do
 
   log.write("\n")
   log.close()
-  sleep(60 * 60 * 6)  # Sleep for 6 hours and check status again
+  sleep(60 * 60)  # Sleep for 1 hour and check status again
 end
