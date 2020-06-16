@@ -19,8 +19,8 @@ Run `ruby message_daemon.rb stop` from the main project directory to end the pro
 ## Next steps
 I wanted to refresh my Ruby skills a little bit and this was a good exercise to do that. I also want to practice some web development so I might go for a web app/controller for this next.
 
-## Known Issue
-There's some issue with a long-running daemon not being able to invoke system calls after the computer wakes up from hibernation. If this occurs, you'll have to manually restart the process. Haven't had time to look into a workaround with university coursework.
+## Known Issues
+- There's some issue with a long-running daemon not being able to invoke system calls after the computer wakes up from hibernation. If this occurs, you'll have to manually restart the process. Haven't had time to look into a workaround with university coursework.
 
 ## Wow, I think I love you now
 Thanks, I love you too. [Hit me up.](https://narula.xyz/)
